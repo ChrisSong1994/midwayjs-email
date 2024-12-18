@@ -1,0 +1,37 @@
+{
+  "name": "@fett/midwayjs-email",
+  "version": "0.0.1-beta.1",
+  "description": "midwayjs email plugin",
+  "main": "dist/index.js",
+  "typings": "index.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "index.d.ts"
+  ],
+  "keywords": [
+    "midwayjs",
+    "email",
+    "mailer"
+  ],
+  "license": "MIT",
+  "author": "ChrisSong1994 <18557511748@163.com>",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ChrisSong1994/midwayjs-email.git"
+  },
+  "scripts": {
+    "build": "npm run clear && tsc",
+    "clear": "rimraf dist"
+  },
+  "dependencies": {
+    "@midwayjs/core": "^3.19.0",
+    "nodemailer": "^6.9.16"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/nodemailer": "^6.4.17",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2"
+  }
+}
