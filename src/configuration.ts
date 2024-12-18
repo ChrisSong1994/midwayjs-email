@@ -1,5 +1,4 @@
 import { Configuration } from "@midwayjs/core";
-import { EmailServiceFactory } from "./manager";
 
 @Configuration({
   namespace: "email",
@@ -11,8 +10,4 @@ import { EmailServiceFactory } from "./manager";
     },
   ],
 })
-export class EmailConfiguration {
-  async onReady(container) {
-    await container.getAsync(EmailServiceFactory);
-  }
-}
+export class EmailConfiguration {}

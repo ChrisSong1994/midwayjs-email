@@ -1,6 +1,6 @@
 {
   "name": "@fett/midwayjs-email",
-  "version": "0.0.1-beta.1",
+  "version": "0.0.1",
   "description": "midwayjs email plugin",
   "main": "dist/index.js",
   "typings": "index.d.ts",
@@ -22,7 +22,9 @@
   },
   "scripts": {
     "build": "npm run clear && tsc",
-    "clear": "rimraf dist"
+    "clear": "rimraf dist",
+    "prepublish": "npm run build",
+    "publish": "npm publish --access public"
   },
   "dependencies": {
     "@midwayjs/core": "^3.19.0",

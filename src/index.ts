@@ -1,2 +1,2 @@
 export { EmailConfiguration as Configuration } from "./configuration";
-export * from "./manager";
+export * from "./service";

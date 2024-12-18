@@ -1,13 +1,9 @@
 import {
   Config,
   Init,
-  Inject,
-  Logger,
   Provide,
   Scope,
   ScopeEnum,
-  ServiceFactory,
-  delegateTargetPrototypeMethod,
   MidwayCommonError,
 } from "@midwayjs/core";
 import * as Mailer from "nodemailer";
@@ -18,7 +14,7 @@ import * as StreamTransport from "nodemailer/lib/stream-transport";
 import * as JSONTransport from "nodemailer/lib/json-transport";
 import * as SESTransport from "nodemailer/lib/ses-transport";
 
-type Options =
+type MailOptions =
   | SMTPTransport.Options
   | SMTPPool.Options
   | SendmailTransport.Options
@@ -28,7 +24,7 @@ type Options =
   | Mailer.TransportOptions;
 
 export type TransportType =
-  | Options
+  | MailOptions
   | SMTPTransport
   | SMTPPool
   | SendmailTransport
@@ -40,45 +36,24 @@ export type TransportType =
 
 @Provide()
 @Scope(ScopeEnum.Singleton)
-export class EmailServiceFactory extends ServiceFactory<Mailer.Transporter> {
-  @Config("email")
-  emailConfig;
-
-  @Init()
-  async init() {
-    await this.initClients(this.emailConfig);
-  }
-
-  @Logger("coreLogger")
-  logger;
-
-  async createClient(config: Options): Promise<Mailer.Transporter> {
-    const transporter = Mailer.createTransport(config);
-    return transporter;
-  }
-
-  getName() {
-    return "email";
-  }
-}
-
-@Provide()
-@Scope(ScopeEnum.Singleton)
 export class EmailService {
-  @Inject()
-  private serviceFactory: EmailServiceFactory;
+  @Config("email")
+  protected emailConfig: MailOptions;
 
-  private instance: Mailer.Transport;
+  private instance: Mailer.Transporter;
 
   @Init()
   async init() {
-    this.instance = this.serviceFactory.get(
-      this.serviceFactory.getDefaultClientName?.() || "default"
-    );
+    this.instance = Mailer.createTransport(this.emailConfig);
+
     if (!this.instance) {
       throw new MidwayCommonError("emial default instance not found.");
     }
   }
-}
 
-delegateTargetPrototypeMethod(EmailService, [Mailer]);
+  async sendMail(
+    options: Mailer.SendMailOptions
+  ): Promise<Mailer.SentMessageInfo> {
+    return this.instance.sendMail(options);
+  }
+}
