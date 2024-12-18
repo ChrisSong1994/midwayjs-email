@@ -29,7 +29,7 @@ export class MainConfiguration {}
 
 `@fett/midwayjs-email` 当前仅提供单客户端模式，配置文件如下：
 
-```json
+```js
 // src/config/config.default.ts
 export default {
   // ...
